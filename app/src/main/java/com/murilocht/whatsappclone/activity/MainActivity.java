@@ -3,7 +3,9 @@ package com.murilocht.whatsappclone.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +14,11 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.murilocht.whatsappclone.R;
 import com.murilocht.whatsappclone.config.ConfiguracaoFirebase;
+import com.murilocht.whatsappclone.fragment.ContatosFragment;
+import com.murilocht.whatsappclone.fragment.ConversasFragment;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +32,20 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
         toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
+
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+                getSupportFragmentManager(),
+                FragmentPagerItems.with(this)
+                        .add(getString(R.string.conversas), ConversasFragment.class)
+                        .add(getString(R.string.contatos), ContatosFragment.class)
+                .create()
+        );
+
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        viewPager.setAdapter(adapter);
+
+        SmartTabLayout viewPagerTab = findViewById(R.id.viewPagerTab);
+        viewPagerTab.setViewPager(viewPager);
 
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
     }
@@ -47,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.menuConfiguracoes : {
+                abrirConfiguracoes();
                 break;
             }
         }
@@ -60,5 +82,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void abrirConfiguracoes() {
+        Intent intent = new Intent(MainActivity.this, ConfiguracoesActivity.class);
+        startActivity(intent);
     }
 }

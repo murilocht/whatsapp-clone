@@ -9,4 +9,11 @@
     <string name="pesquisar">Pesquisar</string>
     <string name="configuracoes">Configurações</string>
     <string name="sair">Sair</string>
+    <string name="conversas">Conversas</string>
+    <string name="contatos">Contatos</string>
+    <string name="nome_usuario">Nome do usuário</string>
+    <string name="aviso_nome_usuario">Esse não o seu nome de usuáio nem sua senha. Esse nome ficaŕa visível para seus contatos do WhatsappClone</string>
+    <string name="permissoes_alerta_titulo">Permissões negadas</string>
+    <string name="permissoes_alerta_mensagem">Para utilizar o app é necessário aceitar as permissões</string>
+    <string name="confirmar">Confirmar</string>
 </resources>

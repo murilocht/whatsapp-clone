@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.murilocht.whatsappclone.R;
 import com.murilocht.whatsappclone.config.ConfiguracaoFirebase;
+import com.murilocht.whatsappclone.helper.Base64Custom;
+import com.murilocht.whatsappclone.helper.UsuarioFirebase;
 import com.murilocht.whatsappclone.model.Usuario;
 
 public class CadastroActivity extends AppCompatActivity {
@@ -60,7 +62,7 @@ public class CadastroActivity extends AppCompatActivity {
         }
     }
 
-    public void cadastrarUsuario(Usuario usuario) {
+    public void cadastrarUsuario(final Usuario usuario) {
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
         autenticacao.createUserWithEmailAndPassword(
             usuario.getEmail(), usuario.getSenha()
@@ -68,8 +70,20 @@ public class CadastroActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar usuário!", Toast.LENGTH_SHORT).show();
+
+                    UsuarioFirebase.atualizarNomeUsuario(usuario.getNome());
+
                     finish();
+
+                    try {
+                        String identificadorUsuario = Base64Custom.codificarBase64(usuario.getEmail());
+                        usuario.setId(identificadorUsuario);
+                        usuario.salvar();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 } else {
                     String excecao;
 
